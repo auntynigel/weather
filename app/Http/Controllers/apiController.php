@@ -21,11 +21,11 @@ class apiController extends Controller
 
     public function getRequest()
     {
+      // Request to openweathermap and return JSON data
       $client = new Client();
+      // Get API and return the body only
       $request = $client->get('http://api.openweathermap.org/data/2.5/weather?q=Skelmersdale,uk&units=metric&appid=d1a4b9720a57638b4cd9b8daea43c4f6')->getBody();
-      // $data = json_decode($request);
-      // dd($response);
-      return($request);
+      return view('weather')->with('request', $request);
     }
 
     /**
