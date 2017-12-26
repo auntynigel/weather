@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use Carbon\Carbon;
 
 class apiController extends Controller
 {
@@ -21,11 +22,13 @@ class apiController extends Controller
 
     public function getRequest()
     {
+      $time = Carbon::now()->format('h:i A');
+      $date = Carbon::now()->format('l jS \of F Y');
       // Request to openweathermap and return JSON data
       $client = new Client();
       // Get API and return the body only
       $request = $client->get('http://api.openweathermap.org/data/2.5/weather?q=Skelmersdale,uk&units=metric&appid=d1a4b9720a57638b4cd9b8daea43c4f6')->getBody();
-      return view('weather')->with('request', $request);
+      return view('weather')->with('request', $request)->with('time', $time)->with('date', $date);
     }
 
     /**
