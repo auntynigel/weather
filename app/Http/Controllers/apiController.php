@@ -17,7 +17,13 @@ class apiController extends Controller
      */
     public function index()
     {
-        //
+      $time = Carbon::now()->format('h:i A');
+      $date = Carbon::now()->format('l jS \of F Y');
+      // XML version
+      $url = "http://api.openweathermap.org/data/2.5/weather?q=Skelmersdale,uk&mode=xml&units=metric&appid=d1a4b9720a57638b4cd9b8daea43c4f6";
+      $content = file_get_contents($url);
+
+      return view('weather')->with('content', $content);
     }
 
     public function getRequest()
@@ -27,8 +33,9 @@ class apiController extends Controller
       // Request to openweathermap and return JSON data
       $client = new Client();
       // Get API and return the body only
-      $request = $client->get('http://api.openweathermap.org/data/2.5/weather?q=Skelmersdale,uk&units=metric&appid=d1a4b9720a57638b4cd9b8daea43c4f6')->getBody();
-      return view('weather')->with('request', $request)->with('time', $time)->with('date', $date);
+      $request = $client->request('GET', 'http://api.openweathermap.org/data/2.5/weather?q=Skelmersdale,uk&units=metric&appid=d1a4b9720a57638b4cd9b8daea43c4f6')->getBody();
+      $content = \GuzzleHttp\json_decode((string) $request);
+      return view('weather')->with('content', $content)->with('time', $time)->with('date', $date);
     }
 
     /**

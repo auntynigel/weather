@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('api', 'apiController@getRequest');
+
+Route::get('weather', 'apiController@index');
